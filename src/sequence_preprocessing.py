@@ -116,7 +116,7 @@ def align_primer(sequence, primer, print_alignment=False):
     loc_end = alignment.aligned[0][-1][1]
 
     # 'primer_alignment' contains formatted string used to print the alignment results
-    aform = alignment._format_pretty()
+    aform = alignment.format() # format() calls _format_pretty()
     aform_linebreak1 = aform.find('\n')
     aform_linebreak2 = aform.find('\n', aform_linebreak1 + 1)
     aform_linebreak3 = aform.find('\n', aform_linebreak2 + 1)
