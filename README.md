@@ -9,7 +9,7 @@
 The Anaconda environment used to run the sequence_preprocessing script can be found in the file GenoRobotics_bioinfo_consensus.yml
 <br/>Here are the following steps to follow to run it:
  - open the current folder in your terminal
- - type `conda env create -f GenoRobotics_bioinfo_consensus` in the terminal to create the environment GenoRobotics_bioinfo_consensus (Anaconda must be installed)
+ - type `conda env create -f GenoRobotics_bioinfo_consensus.yml` in the terminal to create the environment GenoRobotics_bioinfo_consensus (Anaconda must be installed)
  - type `conda activate GenoRobotics_bioinfo_consensus` in the terminal to activate the environment
  - type `cd src` in the terminal
  - type `python sequence_preprocessing.py` in the terminal to try to run the main loop of sequence_preprocessing.py
