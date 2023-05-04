@@ -1,5 +1,5 @@
 """
-This version of the file is a TEST version (V1).
+This version of the file is a TEST version (V1.0.1).
 It means that some methods are not finished or not optimized.
 It also means that everything here is subject to change in later versions.
 - Jeremy Goumaz
@@ -564,11 +564,11 @@ class MultiSequence():
 if __name__ == '__main__':
     """ Example of use """
     # concatenate_fastq(src_folder="fastq_pass", dst="rbcL_Qiagen_tomato.fastq") # skip if the fastq are already concatenated in a single file
-    MultiSeq = MultiSequence("rbcL_Qiagen_tomato.fastq")
+    MultiSeq = MultiSequence("rbcL_Qiagen_tomato_5000.fastq")
     MultiSeq.run_primer_alignments(primer_forward="ATGTCACCACAAACAGAGACTAAAGC", primer_reverse="TCGCATGTACCTGCAGTAGC") # rbcL primers in this case
     MultiSeq.apply_threshold_primer_score_min(min_primer_score=2.2) # minimum primer alignments score of 2.2
     MultiSeq.apply_threshold_error_rate_max(max_error_rate=0.06) # maximum 6% of errors allowed
     MultiSeq.print_stats() # this method can be used before the thresholding to determine the thresholds to use
-    MultiSeq.save("rbcL_Qiagen_tomato.pickle") # save for later use (without having to rerun run_primer_alignments for example)
-    MultiSeq = MultiSequence("rbcL_Qiagen_tomato.pickle") # the saved MultiSequence() can be reloaded like this
+    MultiSeq.save("rbcL_Qiagen_tomato_5000.pickle") # save for later use (without having to rerun run_primer_alignments for example)
+    MultiSeq = MultiSequence("rbcL_Qiagen_tomato_5000.pickle") # the saved MultiSequence() can be reloaded like this
 
