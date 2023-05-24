@@ -5,7 +5,7 @@ It also means that everything here is subject to change in later versions.
 - Jeremy Goumaz
 """
 
-__version__ = '2.0.0-a1'
+__version__ = '2.0.0'
 
 import gzip, glob, math, random, pickle, time, warnings, sys, copy
 import numpy as np
