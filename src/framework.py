@@ -29,8 +29,8 @@ class ConsensusSeq:
         self.name = name  # name of the algorithm
         if filename:
             self.filename = filename
-            # self.sequence=read_fastq(filename)
-            self.sequence = load_fasta(filename)  # output in fastq?
+            self.sequence = read_fastq(filename)
+            # self.sequence = load_fasta(filename)  # output in fastq?
         elif seq:
             self.sequence = seq
         self.length = len(self.sequence)
@@ -51,5 +51,5 @@ class ConsensusSeq:
 # MultiSeq = MultiSequence("rbcL_MN_tomato.pickle")
 ref = load_fasta("rbcL_NCBI_tomato.fasta")
 output = ConsensusSeq("test", "rbcL_NCBI_tomato.fasta")
-# print(MultiSeq.consensus) #아직 다 안나온듯 함
+# print(MultiSeq.consensus)
 output.align_ref(ref)
