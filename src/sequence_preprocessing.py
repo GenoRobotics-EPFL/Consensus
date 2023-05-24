@@ -5,7 +5,7 @@ It also means that everything here is subject to change in later versions.
 - Jeremy Goumaz
 """
 
-__version__ = '2.0.0'
+__version__ = '2.1.0'
 
 import gzip, glob, math, random, pickle, time, warnings, sys, copy
 import numpy as np
@@ -83,6 +83,31 @@ def create_random_sequence(length=500, seed=None):
     """
     if seed is not None: random.seed(seed)
     return "".join(["ATGC"[random.randint(0,3)] for i in range(length)])
+def damage_sequence(sequence, mutation_rate=0.05, deletion_rate=0.05, insertion_rate=0.05):
+    """
+    Damage a sequence randomly with mutation (substitution), deletion and insertion
+    Warning: to avoid infinite loop, don't set the insertion_rate to 1.0 (or near)
+    :param sequence: original sequence to damage [str]
+    :param mutation_rate: mutation rate (between 0.0 and 1.0) [float]
+    :param deletion_rate: deletion_rate (between 0.0 and 1.0) [float]
+    :param insertion_rate: insertion_rate (between 0.0 and 1.0) [float]
+    :return: damaged sequence [str]
+    """
+    if mutation_rate < 0 or mutation_rate > 1:
+        raise Exception("[damage_sequence] mutation_rate is incorrect (must be between 0.0 and 1.0)")
+    if deletion_rate < 0 or deletion_rate > 1:
+        raise Exception("[damage_sequence] deletion_rate is incorrect (must be between 0.0 and 1.0)")
+    if insertion_rate < 0 or insertion_rate > 1:
+        raise Exception("[damage_sequence] insertion_rate is incorrect (must be between 0.0 and 1.0)")
+    sequence = "".join(["ATGC".replace(b, '')[random.randint(0, 2)] if random.random() < mutation_rate else b for b in sequence]) # mutation / substitution
+    sequence = "".join(['' if random.random() < deletion_rate else b for b in sequence]) # deletion
+    insertion_extension_rate = insertion_rate  # can be changed if the extension rate is different
+    def get_insert(extension_rate=insertion_extension_rate):
+        insert = "ATGC"[random.randint(0,3)]
+        while random.random() < extension_rate: insert += "ATGC"[random.randint(0,3)] # extension (after insertion)
+        return insert
+    sequence = "".join([sequence[i:i+1] + get_insert() if random.random() < insertion_rate else sequence[i:i+1] for i in range(len(sequence)+1)]) # insertion
+    return sequence
 def align_primer(sequence, primer, aligner_scores=None, print_alignment=False, return_formatted_alignment=False):
     """
     Global alignment of primer inside sequence.
@@ -820,12 +845,25 @@ class TestPrimer(unittest.TestCase):
         self.assertEqual(Primer.alignments[1][0].primer_end, 130)
         self.assertEqual(Primer.alignments[1][1].primer_start, 80)
         self.assertEqual(Primer.alignments[1][1].primer_end, 120)
+class TestFunctions(unittest.TestCase):
+    def test_damage_sequence(self):
+        random.seed(0)
+        sequence = 1000*"A"
+        damaged = damage_sequence(sequence, mutation_rate=0.0, deletion_rate=0.0, insertion_rate=0.0)
+        self.assertTrue(sequence == damaged)
+        damaged = damage_sequence(sequence, mutation_rate=1.0, deletion_rate=0.0, insertion_rate=0.0)
+        self.assertTrue(damaged.count('A') == 0)
+        damaged = damage_sequence(sequence, mutation_rate=0.0, deletion_rate=1.0, insertion_rate=0.0)
+        self.assertTrue(len(damaged) == 0)
+        damaged = damage_sequence(sequence, mutation_rate=0.0, deletion_rate=0.0, insertion_rate=0.2)
+        self.assertTrue(len(damaged) > len(sequence))
 def run_tests():
     unittest.main()
 
 if __name__ == '__main__':
     """ Run tests (uncomment this part) """
     # run_tests()
+
     """ Example of use """
     # concatenate_fastq(src_folder="fastq_pass", dst="rbcL_Qiagen_tomato.fastq") # skip if the fastq are already concatenated in a single file
     MultiSeq = MultiSequence("rbcL_Qiagen_tomato_5000.fastq")
@@ -835,3 +873,9 @@ if __name__ == '__main__':
     BestSequences.save("BestSequences_rbcL_Qiagen_tomato_5000.pickle") # save for later use (without having to rerun run_primer_alignments for example)
     BestSequences = MultiSequence("BestSequences_rbcL_Qiagen_tomato_5000.pickle") # the saved MultiSequence() can be reloaded like this
     BestSequences.write_to_fastq("BestSequences_rbcL_Qiagen_tomato_5000.fastq")
+
+    """ Generate random sequence and damage it (uncomment this part) """
+    sequence = create_random_sequence(length=50) # create a random sequence with 50 bases
+    sequence_damaged = damage_sequence(sequence, mutation_rate=0.1, deletion_rate=0.1, insertion_rate=0.1) # damage the sequence
+    print(f"{sequence}\n{sequence_damaged}")
+
