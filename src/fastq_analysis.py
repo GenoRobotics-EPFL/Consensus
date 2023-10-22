@@ -1,4 +1,4 @@
-__version__ = '0.0.0'
+__version__ = '0.0.1'
 
 import random, pickle, time, warnings, copy, json
 import numpy as np
@@ -8,6 +8,7 @@ from sequence_preprocessing import concatenate_fastq, read_fastq
 
 
 def analyze_fastq_statistics(fastq_filepath, dna_reference_sequence):
+    dna_reference_sequence = ''.join([char for char in dna_reference_sequence if char in "ATGC"]) # remove space, line break...
     sequences = read_fastq(fastq_filepath)
     sequences_str = [str(s.seq) for s in sequences]
     analysis = dict()
