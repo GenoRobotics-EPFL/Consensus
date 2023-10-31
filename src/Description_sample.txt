@@ -1,0 +1,6 @@
+ref: Lauriane project Experiments 3 & 4 - sequencing of single PCR products
+
+Description: DNA extracted with Qiagen DNeasy kit (high quality DNA), amplified by PCR to amplify rbcL, library prep & sequencing done with: rapid sequencing kit (SQK-RAD004) & minIon flowcell
+
+forward: rbcLa-F 	5’-	ATG TCA CCA CAA ACA GAG ACT AAA GC	-3’ 
+reverse: rbcL rbcLa724R 5’- 	TCG CAT GTA CCT GCA GTA GC		-3
