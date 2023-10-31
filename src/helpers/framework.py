@@ -12,15 +12,17 @@ output:
     - alignment score
 
 """
+
 # from sequence_preprocessing import *
 import Bio
 from Bio import SeqIO
 from Bio import AlignIO
 from Bio.Align import MultipleSeqAlignment
 from Bio.Align.AlignInfo import SummaryInfo
-from sequence_preprocessing import *
+from main.sequence_preprocessing import *
 from itertools import chain
 
+from helpers.fastq import read_fastq
 
 def load_fasta(filename):
     for seq_record in SeqIO.parse(filename, "fasta"):
