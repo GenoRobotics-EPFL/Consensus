@@ -1,8 +1,15 @@
-import unittest
+import unittest, random, sys
+from Bio import Align
+
+from helpers.fastq import damage_sequence
+from objects.PrimerAlignment import PrimerAlignment
+from objects.PrimerAllAlignments import PrimerAllAlignments
 
 class TestVersion(unittest.TestCase):
+    
     def test_python(self):
         self.assertTrue(sys.version_info >= (3,10)) # Check that Python 3.10 at least is used
+        
     def test_biopython(self):
         import Bio
         self.assertTrue(Bio.__version__ == "1.79", f"biopython version 1.79 needed (version {Bio.__version__} found)")
@@ -15,6 +22,7 @@ class TestPrimer(unittest.TestCase):
         Primer.set_alignment(PrimerAlignment(primer_score=20, primer_start=100, primer_end=130), complementary=True, reverse=False)
         Primer.set_alignment(PrimerAlignment(primer_score=40, primer_start=80, primer_end=120), complementary=True, reverse=True)
         return Primer
+    
     def test_flip(self):
         Primer = self.get_Primer()
         Primer.flip_reverse()
@@ -27,6 +35,7 @@ class TestPrimer(unittest.TestCase):
         self.assertTrue(properties.get("score") == 40)
         self.assertTrue(properties.get("start") == 80)
         self.assertTrue(properties.get("end") == 120)
+    
     def test_resize(self):
         Primer = self.get_Primer()
         Primer.truncate(10,5)
@@ -49,6 +58,7 @@ class TestPrimer(unittest.TestCase):
         self.assertEqual(Primer.alignments[1][1].primer_end, 120)
 
 class TestFunctions(unittest.TestCase):
+
     def test_damage_sequence(self):
         random.seed(0)
         sequence = 1000*"A"
@@ -60,6 +70,7 @@ class TestFunctions(unittest.TestCase):
         self.assertTrue(len(damaged) == 0)
         damaged = damage_sequence(sequence, mutation_rate=0.0, deletion_rate=0.0, insertion_rate=0.2)
         self.assertTrue(len(damaged) > len(sequence))
-        
+
 def run_tests():
+
     unittest.main()
