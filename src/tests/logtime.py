@@ -47,5 +47,4 @@ def initialize_log_file(filename: str):
         log_file.write(f"Number of lines: {num_lines}\n")
         log_file.write(f"Created on: {creation_time}\n")
         log_file.write(f"Last modified on: {modified_time}\n")
-        log_file.write(f"Full path: {os.path.abspath(filename)}\n")
         log_file.write("=" * 50 + "\n")

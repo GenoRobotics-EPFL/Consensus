@@ -29,7 +29,6 @@ def load_fasta(filename):
         seq = seq_record.seq
     return seq
 
-
 class ConsensusSeq:
     def __init__(self, name, filename=None, seq=None):
         self.name = name  # name of the algorithm
