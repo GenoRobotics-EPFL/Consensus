@@ -13,6 +13,7 @@ The Anaconda environment used to run the sequence_preprocessing script can be fo
  - type `conda activate GenoRobotics_bioinfo_consensus` in the terminal to activate the environment
  - type `cd src` in the terminal
  - type `python sequence_preprocessing.py` in the terminal to try to run the main loop of sequence_preprocessing.py
+ - to exit the environment, type `conda deactivate` in the terminal
 
 If everything can be run, it means that the environment is correctly installed.
 <br/>Well done, you have successfully preprocessed your first dataset ! Now you can try to play with other datasets with different parameters. 👍

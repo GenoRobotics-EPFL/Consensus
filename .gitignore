@@ -1,3 +1,7 @@
+# Untrack output files
+src/assets/*
+!src/assets/input/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
